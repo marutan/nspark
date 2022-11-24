@@ -42,6 +42,7 @@ extern unsigned char retry;
 extern unsigned char apptype;
 extern unsigned char singlecase;
 extern unsigned char to_stdout;
+extern unsigned char moddbformat;
 #ifdef DEBUGGING
 extern unsigned char debugging;
 #endif /* DEBUGGING */

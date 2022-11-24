@@ -287,8 +287,8 @@ do_unarc()
 
 	if (!quiet && verbose)
 	{
-		msg("filename                          size load/date   exec/time type storage");
-		msg("--------                          ---- ----------- --------- ---- -------");
+		msg("filename                          size load/date   exec/time type storage\n");
+		msg("--------                          ---- ----------- --------- ---- -------\n");
 	}
 
 	/*
@@ -413,12 +413,16 @@ do_unarc()
 			/*
 			 * print the archive file details...
 			 */
-			if (!quiet)
-			{
-				msg("%-30s", fullname);
-				if (verbose)
-					print_details(header);
-			}
+			if(moddbformat) {
+				msg("%08x %08x %s", header->load, header->exec, fullname);
+			} else {
+				if (!quiet)
+				{
+					msg("%-30s", fullname);
+					if (verbose)
+						print_details(header);
+				}
+                        }
 
 			/* add to totals */
 			nbytes += header->origlen;

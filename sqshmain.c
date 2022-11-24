@@ -18,6 +18,7 @@ unsigned char singlecase = 0;
 unsigned char stamp = 1;
 unsigned char to_stdout = 0;
 unsigned char verbose = 0;
+unsigned char moddbformat = 0;
 char *archive = NULL;
 char **files = NULL;
 char *logfile = NULL;

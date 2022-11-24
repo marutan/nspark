@@ -86,6 +86,7 @@ unsigned char to_stdout = 0;		/* -c */
 unsigned char retry = 0;		/* -R */
 unsigned char apptype = 0;		/* -T */
 unsigned char singlecase = 0;	/* -C */
+unsigned char moddbformat = 0;		/* -m */
 
 #ifdef DEBUGGING
 unsigned char debugging = 0;	/* -D */
@@ -211,6 +212,9 @@ main(int argc, char *argv[])
 					break;
 				case 'v':
 					verbose = 1;
+					break;
+				case 'm':
+					moddbformat = 1;
 					break;
 				case 'c':
 					to_stdout = 1;
@@ -339,6 +343,6 @@ usage()
 	
 		/* MU added instuctions for the -I option */ 
 	fprintf(stderr, "       -I unarchive with .inf files -p<password> set password\n");
-	fprintf(stderr, "       -c extract files to stdout\n");
+	fprintf(stderr, "       -c extract files to stdout   -m Modules DB format for -l\n");
 	exit(1);
 } 

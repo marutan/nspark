@@ -17,6 +17,7 @@ char *ourname = NULL;
 unsigned char testing = 0;
 unsigned char quiet = 0;
 unsigned int singlecase = 0;
+unsigned int moddbformat = 0;
 
 int
 main(int argc, char *argv[])
