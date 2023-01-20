@@ -26,25 +26,26 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
+#include <stdbool.h>
+
 extern char *ourname;
 extern char *archive;
 extern char *logfile;
 extern char **files;
-extern unsigned char unarc;
-extern unsigned char inffiles;
-extern unsigned char quiet;
-extern unsigned char verbose;
-extern unsigned char testing;
-extern unsigned char listing;
-extern unsigned char force;
-extern unsigned char stamp;
-extern unsigned char retry;
-extern unsigned char apptype;
-extern unsigned char singlecase;
-extern unsigned char to_stdout;
-extern unsigned char moddbformat;
+extern bool inffiles;
+extern bool quiet;
+extern bool verbose;
+extern bool testing;
+extern bool listing;
+extern bool force;
+extern bool stamp;
+extern bool retry;
+extern bool apptype;
+extern bool singlecase;
+extern bool to_stdout;
+extern bool moddbformat;
 #ifdef DEBUGGING
-extern unsigned char debugging;
+extern bool debugging;
 #endif /* DEBUGGING */
 
 #endif /* __MAIN_H */

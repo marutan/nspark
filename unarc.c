@@ -458,7 +458,7 @@ do_unarc()
 					{
 						char c = prompt_user(fullname);
 						if (c == 'a')
-							force = 1;
+							force = true;
 						else if (c == 'n')
 						{
 							fseek(ifp, (long) header->complen, 1);

@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,24 +8,24 @@
 #include "error.h"
 
 char *ourname;
-unsigned char apptype = 0;
-unsigned char force = 0;
-unsigned char inffiles = 0;
-unsigned char listing = 0;
-unsigned char testing = 0;
-unsigned char quiet = 1;
-unsigned char retry = 0;
-unsigned char singlecase = 0;
-unsigned char stamp = 1;
-unsigned char to_stdout = 0;
-unsigned char verbose = 0;
-unsigned char moddbformat = 0;
+bool apptype     = false;
+bool force       = false;
+bool inffiles    = false;
+bool listing     = false;
+bool testing     = false;
+bool quiet       = true;
+bool retry       = false;
+bool singlecase  = false;
+bool stamp       = true;
+bool to_stdout   = false;
+bool verbose     = false;
+bool moddbformat = false;
 char *archive = NULL;
 char **files = NULL;
 char *logfile = NULL;
 
 void
-usage()
+usage(void)
 {
 	fprintf(stderr, "sqsh: un-squashes RISC OS squashed files\n");
 	fprintf(stderr, "Usage: sqsh [options] <filename>\n");
@@ -54,13 +55,13 @@ main(int argc, char *argv[])
 			switch (argv[i][1])
 			{
 				case 'c':
-					to_stdout = 1;
+					to_stdout = true;
 					break;
 				case 'f':
-					force = 1;
+					force = true;
 					break;
 				case 's':
-					stamp = 0;
+					stamp = false;
 					break;
 			}
 		}

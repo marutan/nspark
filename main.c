@@ -48,6 +48,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "main.h"
 #include "spark.h"
 
 /* BB changed next line */ 
@@ -74,22 +75,22 @@ char *logfile = "settypes";		/* default name for log file */
 
 #endif	/*  */
 char **files;					/* optional file arguments */
-unsigned char unarc = 0;		/* -u or -x or I */
-unsigned char inffiles = 0;	/* I */
-unsigned char quiet = 0;		/* -q */
-unsigned char verbose = 0;		/* -v */
-unsigned char testing = 0;		/* -t */
-unsigned char listing = 0;		/* -l */
-unsigned char force = 0;		/* -f */
-unsigned char stamp = 1;		/* -s */
-unsigned char to_stdout = 0;		/* -c */
-unsigned char retry = 0;		/* -R */
-unsigned char apptype = 0;		/* -T */
-unsigned char singlecase = 0;	/* -C */
-unsigned char moddbformat = 0;		/* -m */
+static bool unarc = false;		/* -u or -x or I */
+bool inffiles    = false;		/* I */
+bool quiet       = false;		/* -q */
+bool verbose     = false;		/* -v */
+bool testing     = false;		/* -t */
+bool listing     = false;		/* -l */
+bool force       = false;		/* -f */
+bool stamp       = true;		/* -s */
+bool to_stdout   = false;		/* -c */
+bool retry       = false;		/* -R */
+bool apptype     = false;		/* -T */
+bool singlecase  = false;		/* -C */
+bool moddbformat = false;		/* -m */
 
 #ifdef DEBUGGING
-unsigned char debugging = 0;	/* -D */
+bool debugging   = false;		/* -D */
 
 #endif	/* DEBUGGING */
 void usage(void);
@@ -197,50 +198,50 @@ main(int argc, char *argv[])
 				{
 				case 'u':
 				case 'x':
-					unarc = 1;
+					unarc = true;
 					break;
 				case 't':
-					testing++;
-					unarc = 1;	/* implied */
+					testing = true;
+					unarc = true;	/* implied */
 					break;
 				case 'l':
-					listing++;
-					unarc = 1;	/* implied */
+					listing = true;
+					unarc = true;	/* implied */
 					break;
 				case 'q':
 					quiet = 1;
 					break;
 				case 'v':
-					verbose = 1;
+					verbose = true;
 					break;
 				case 'm':
-					moddbformat = 1;
+					moddbformat = true;
 					break;
 				case 'c':
-					to_stdout = 1;
+					to_stdout = true;
 					break;
 				case 'f':
-					force = 1;
+					force = true;
 					break;
 				case 's':
-					stamp = 0;
+					stamp = false;
 					break;
 				case 'R':
-					retry = 1;
+					retry = true;
 					break;
 				case 'V':
 					fprintf(stderr, "%s v%s - maintained by %s - PUBLIC DOMAIN\n",
 							ourname, VERSION, MAINTAINER);
 					break;
 				case 'T':
-					apptype = 1;
+					apptype = true;
 					logfile = NULL;
 					break;
 				case 'C':
-					singlecase = 1;
+					singlecase = true;
 					break;
 				case 'L':
-					if (!apptype)
+					if (apptype == false)
 					{
 						if (*++arg)
 							logfile = arg;
@@ -257,7 +258,7 @@ main(int argc, char *argv[])
 					
 #ifdef DEBUGGING
 				case 'D':
-					debugging = 1;
+					debugging = true;
 					break;
 					
 #endif	/* DEBUGGING */
@@ -272,8 +273,8 @@ main(int argc, char *argv[])
 					
 #endif	/* __MSDOS__ */
 				case 'I':
-					unarc = 1;
-					inffiles = 1;
+					unarc = true;
+					inffiles = true;
 					break;
 				case 'p':
 					if (*++arg)
