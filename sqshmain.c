@@ -24,7 +24,7 @@ char *archive = NULL;
 char **files = NULL;
 char *logfile = NULL;
 
-void
+static void
 usage(void)
 {
 	fprintf(stderr, "sqsh: un-squashes RISC OS squashed files\n");

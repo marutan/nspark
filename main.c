@@ -61,6 +61,7 @@
 #include "unarc.h"
 #include "garble.h"
 #include "version.h"
+#include "unarc.h"
 
 char *ourname;					/* program name */
 char *archive;					/* name of archive file */
@@ -93,9 +94,7 @@ bool moddbformat = false;		/* -m */
 bool debugging   = false;		/* -D */
 
 #endif	/* DEBUGGING */
-void usage(void);
-int do_unarc(void);
-int do_arc(void);
+static void usage(void);
 
 int
 main(int argc, char *argv[])
@@ -324,8 +323,8 @@ main(int argc, char *argv[])
 /*
  * display program usage and exit
  */ 
-void
-usage() 
+static void
+usage(void)
 {
 	fprintf(stderr, "usage: %s [options] archive [file ... file]\n",
 			 ourname);
