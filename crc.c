@@ -31,8 +31,8 @@
 #include "main.h"
 #include "arcfs.h"
 
-Word crc;
-static Word crctable[256] = {
+uint32_t crc;
+static uint32_t crctable[256] = {
 	0x00000000, 0x0000c0c1, 0x0000c181, 0x00000140,
 	0x0000c301, 0x000003c0, 0x00000280, 0x0000c241,
 	0x0000c601, 0x000006c0, 0x00000780, 0x0000c741,
@@ -100,7 +100,7 @@ static Word crctable[256] = {
 };
 
 void
-calccrc(Byte byte)
+calccrc(uint8_t byte)
 {
 	if (crcsize-- > 0)
 		/* BB added cast to next line to stop Borland compiler

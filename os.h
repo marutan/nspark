@@ -17,7 +17,7 @@
 #ifndef __OS_H
 #define __OS_H
 
-Word filesize(char *pathname);
+uint32_t filesize(char *pathname);
 Ftype exist(char *pathname);
 int makedir(char *pathname);
 int filestamp(Header *header, char *filename);

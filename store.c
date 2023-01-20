@@ -36,8 +36,8 @@
 Status
 unstore(Header *header, FILE *ifp, FILE *ofp)
 {
-	Word len = header->complen;
-	Byte byte;
+	uint32_t len = header->complen;
+	uint8_t byte;
 
     init_garble();
 
@@ -57,7 +57,7 @@ unstore(Header *header, FILE *ifp, FILE *ofp)
 		return (RERR);
 	if (!testing && check_stream(ofp) == FRWERR)
 		return (WERR);
-	if ((Halfword) crc != header->crc)
+	if ((uint16_t) crc != header->crc)
 		return (CRCERR);
 	if (testing)
 	{

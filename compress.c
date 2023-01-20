@@ -266,14 +266,14 @@ uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 	{
 		putc_init();
 		/* BB changed next line for Borland C/C++ 4 */
-		putc_ncr(ofp, (Byte) finchar);
+		putc_ncr(ofp, (uint8_t) finchar);
 	}
 	else
 	{
 		/* BB changed next three lines for Borland C/C++ 4 */
 		if (!testing)
-			write_byte(ofp, (Byte) finchar);
-		calccrc((Byte) finchar);
+			write_byte(ofp, (uint8_t) finchar);
+		calccrc((uint8_t) finchar);
 	}
 
 	stackp = de_stack;
@@ -361,7 +361,7 @@ uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 		return (RERR);
 	if (!testing && check_stream(ofp) == FRWERR)
 		return (WERR);
-	if ((Halfword) crc != header->crc)
+	if ((uint16_t) crc != header->crc)
 		return (CRCERR);
 	if (testing)
 		switch (type)

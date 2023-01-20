@@ -4,7 +4,7 @@
 
 void set_password(char *p);
 void init_garble(void);
-Byte ungarble(Byte byte);
-Byte garble(Byte byte);
+uint8_t ungarble(uint8_t byte);
+uint8_t garble(uint8_t byte);
 
 #endif

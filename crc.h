@@ -11,7 +11,7 @@
 #ifndef __CRC_H
 #define __CRC_H
 
-extern Word crc;
-void calccrc(Byte byte);
+extern uint32_t crc;
+void calccrc(uint8_t byte);
 
 #endif /* __CRC_H */

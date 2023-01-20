@@ -109,27 +109,6 @@ main(int argc, char *argv[])
 	
 #endif	/*  */
 		
-#ifdef DEBUGGING
-		/*
-		 * check types are defined correctly for this machine (or compiler ???)
-		 */ 
-		if (sizeof(Word) != 4)
-	{
-		error("Word size != 4");
-		exit(1);
-	}
-	if (sizeof(Halfword) != 2)
-	{
-		error("Halfword size != 2");
-		exit(1);
-	}
-	if (sizeof(Byte) != 1)
-	{
-		error("Byte size != 1");
-		exit(1);
-	}
-	
-#endif	/* DEBUGGING */
 		ourname = basename(*argv++);
 	
 		/* BB cosmetics for DOS: Strip extention .exe (or .com if

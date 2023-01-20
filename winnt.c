@@ -20,14 +20,14 @@
 /*
  * return the length of a file
  */
-Word
+uint32_t
 filesize(char *pathname)
 {
 	struct stat statb;
 
 	if (stat(pathname, &statb) < 0)
 		return 0;
-	return (Word) statb.st_size;;
+	return (uint32_t) statb.st_size;;
 }
 
 /*
@@ -70,7 +70,7 @@ filestamp(Header *header, char *filename)
 	if (exist(filename) == ISDIR)
 		return (0);				/* Win NT appears not to allow stamping dirs. */
 
-	if ((header->load & (Word) 0xfff00000) != (Word) 0xfff00000)
+	if ((header->load & (uint32_t) 0xfff00000) != (uint32_t) 0xfff00000)
 		return (0);				/* not a timestamp */
 
 	memset((char *) &tm, '\0', sizeof(tm));

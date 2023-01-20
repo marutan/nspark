@@ -36,7 +36,7 @@
 #include "pack.h"
 
 static short running;
-static Word complen;
+static uint32_t complen;
 
 
 void
@@ -50,9 +50,9 @@ putc_init()
  */
 
 void
-putc_ncr(FILE *ofp, Byte byte)
+putc_ncr(FILE *ofp, uint8_t byte)
 {
-	static Byte prevbyte;
+	static uint8_t prevbyte;
 
 	if (running)
 	{
@@ -97,7 +97,7 @@ putc_ncr(FILE *ofp, Byte byte)
 Status
 unpack(Header *header, FILE *ifp, FILE *ofp)
 {
-	Word len = header->complen;
+	uint32_t len = header->complen;
 
     init_garble();
 
@@ -114,7 +114,7 @@ unpack(Header *header, FILE *ifp, FILE *ofp)
 		return (RERR);
 	if (!testing && check_stream(ofp) == FRWERR)
 		return (WERR);
-	if ((Halfword) crc != header->crc)
+	if ((uint16_t) crc != header->crc)
 		return (CRCERR);
 	if (testing)
 		msg("OK (packed)");
@@ -124,7 +124,7 @@ unpack(Header *header, FILE *ifp, FILE *ofp)
 }
 
 void
-write_ncr(FILE *ofp, Byte byte, int bytecount)
+write_ncr(FILE *ofp, uint8_t byte, int bytecount)
 {
 	int i;
 
@@ -160,8 +160,8 @@ write_ncr(FILE *ofp, Byte byte, int bytecount)
 Status
 pack(Header *header, FILE *ifp, FILE *ofp)
 {
-	Word len = header->origlen;
-	Byte prevbyte = '\0', byte;
+	uint32_t len = header->origlen;
+	uint8_t prevbyte = '\0', byte;
 	int bytecount = 0;
 
     init_garble();
@@ -203,7 +203,7 @@ pack(Header *header, FILE *ifp, FILE *ofp)
 	else
 		msg("packed");
 
-	header->crc = (Halfword) crc;
+	header->crc = (uint16_t) crc;
 	header->complen = complen;
 
 	return (NOERR);

@@ -222,7 +222,7 @@ downlevel(char *filename)
 }
 
 char *
-get_comp_desc(Byte comptype)
+get_comp_desc(uint8_t comptype)
 {
 	switch (comptype & ~ARCHPACK)
 	{
@@ -260,7 +260,7 @@ print_details(Header *header)
 		/* Archimedes archive header */
 
 		/* BB changed constants in next line to long */
-		if ((header->load & (Word) 0xfff00000l) == (Word) 0xfff00000l)
+		if ((header->load & (uint32_t) 0xfff00000l) == (uint32_t) 0xfff00000l)
 		{
 			/* time stamp valid */
 			date = makedate(header);
@@ -276,7 +276,7 @@ print_details(Header *header)
 		{
 			/* load/exec only */
 			/* BB added long to first format in next line.
-			   Header.origlen is a Word (i.e. a long) */
+			   Header.origlen is a uint32_t */
 #ifdef __MSDOS__
 			msg("%8ld &%08lX   &%08lX ---- %s", header->origlen,
 #else
@@ -336,7 +336,7 @@ append_type(Header *header, char *filename)
 	char append[sizeof(",xxx")];
 
 	/* BB changed constants in next line to long. */
-	if ((header->load & (Word) 0xfff00000l) == (Word) 0xfff00000l)
+	if ((header->load & (uint32_t) 0xfff00000l) == (uint32_t) 0xfff00000l)
 	{
 		/* valid time-stamp */
 #ifdef __MSDOS__

@@ -46,20 +46,7 @@
 #define MSDOS
 #endif
 
-/*
- * "Word" must be a 4-byte type.
- * "Halfword" must be a 2-byte type.
- * "Byte" must be a 1-byte type.
- */
-#if defined (MSDOS) && !defined(WINNT) && !defined(MSDOS32)
-typedef unsigned long	Word;
-typedef	unsigned int	Halfword;
-typedef unsigned char	Byte;
-#else /* not MSDOS */
-typedef unsigned int	Word;
-typedef unsigned short	Halfword;
-typedef unsigned char	Byte;
-#endif /* MSDOS */
+#include <stdint.h>
 
 /*
  * define the path seperator character, and file open mode string.
@@ -130,24 +117,24 @@ typedef enum {NOERR, RERR, WERR, CRCERR } Status;
  * compressed file header
  */
 typedef struct {
-	Byte comptype;		/* compression type */
+	uint8_t comptype;		/* compression type */
 	char name[14];		/* name of file */
-	Word complen;		/* compressed length */
-	Halfword date;		/* file creation date */
-	Halfword time;		/* file creation time */
-	Halfword crc;		/* Cyclic Redundancy Check */
-	Word origlen;		/* original length */
-	Word load;		/* load address */
-	Word exec;		/* exec address */
-	Word attr;		/* file attributes */
+	uint32_t complen;	/* compressed length */
+	uint16_t date;		/* file creation date */
+	uint16_t time;		/* file creation time */
+	uint16_t crc;		/* Cyclic Redundancy Check */
+	uint32_t origlen;	/* original length */
+	uint32_t load;		/* load address */
+	uint32_t exec;		/* exec address */
+	uint32_t attr;		/* file attributes */
 } Header;
 
 typedef struct {
 	char magic[4];		/* Should be SQSH */
-	Word origlen;		/* Original length */
-	Word load;			/* load address */
-	Word exec;			/* exec address */
-	Word reserved;		/* For future use */
+	uint32_t origlen;	/* Original length */
+	uint32_t load;		/* load address */
+	uint32_t exec;		/* exec address */
+	uint32_t reserved;	/* For future use */
 } SqshHeader;
 
 /*
@@ -170,22 +157,22 @@ typedef enum { COMPRESS, SQUASH, CRUNCH, UNIX_COMPRESS } CompType;
 /*
  * compression types
  */
-#define CT_NOTCOMP	(Byte)0x01	/* not compressed (old) */
-#define CT_NOTCOMP2	(Byte)0x02	/* not compressed (new) */
-#define CT_PACK		(Byte)0x03	/* run length */
-#define CT_PACKSQUEEZE	(Byte)0x04	/* run length + Huffman squeezing */
-#define CT_LZOLD	(Byte)0x05	/* Lempel-Ziv (old) */
-#define CT_LZNEW	(Byte)0x06	/* Lempel-Ziv (new) */
-#define CT_LZW		(Byte)0x07	/* Lempel-Ziv Welch */
-#define CT_CRUNCH	(Byte)0x08	/* Dynamic LZW with adaptive reset */
-#define CT_SQUASH	(Byte)0x09	/* PKARC squashing */
-#define CT_COMP		(Byte)0x7f	/* UNIX compress */
+#define CT_NOTCOMP	(uint8_t)0x01	/* not compressed (old) */
+#define CT_NOTCOMP2	(uint8_t)0x02	/* not compressed (new) */
+#define CT_PACK		(uint8_t)0x03	/* run length */
+#define CT_PACKSQUEEZE	(uint8_t)0x04	/* run length + Huffman squeezing */
+#define CT_LZOLD	(uint8_t)0x05	/* Lempel-Ziv (old) */
+#define CT_LZNEW	(uint8_t)0x06	/* Lempel-Ziv (new) */
+#define CT_LZW		(uint8_t)0x07	/* Lempel-Ziv Welch */
+#define CT_CRUNCH	(uint8_t)0x08	/* Dynamic LZW with adaptive reset */
+#define CT_SQUASH	(uint8_t)0x09	/* PKARC squashing */
+#define CT_COMP		(uint8_t)0x7f	/* UNIX compress */
 
 /*
  * other spark defines
  */
-#define STARTBYTE	(Byte)0x1a	/* start of archive marker */
-#define RUNMARK		(Byte)0x90	/* start of run (pack/unpack) */
-#define ARCHPACK	(Byte)0x80	/* bit-7 set in comptype if Archie */
+#define STARTBYTE	(uint8_t)0x1a	/* start of archive marker */
+#define RUNMARK		(uint8_t)0x90	/* start of run (pack/unpack) */
+#define ARCHPACK	(uint8_t)0x80	/* bit-7 set in comptype if Archie */
 
 #endif /* __SPARK_H */

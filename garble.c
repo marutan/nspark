@@ -15,8 +15,8 @@ init_garble()
 	passp = password;
 }
 
-Byte
-ungarble(Byte byte)
+uint8_t
+ungarble(uint8_t byte)
 {
 	if (password) {
 		byte ^= *passp++;
@@ -28,8 +28,8 @@ ungarble(Byte byte)
 	return byte;
 }
 
-Byte
-garble(Byte byte)
+uint8_t
+garble(uint8_t byte)
 {
 	/* Garble and ungarble are the same thing */
 	return ungarble(byte);

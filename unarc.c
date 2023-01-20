@@ -159,7 +159,7 @@ do_unsquash()
 	/* The uncompress code uses Spark entry header structures.
 	 * Use the squash header and other info to set up the Spark header
 	 * with needed info. */
-	header.complen = (Word)(offset - datastart);
+	header.complen = (uint32_t)(offset - datastart);
 	sqsh_header_to_header(&sqsh_header, &header);
 	fseek(ifp, datastart, SEEK_SET);
 
@@ -248,8 +248,8 @@ do_unarc()
 	char *pathname = NULL;
 	char fullname[PATHNAMELEN];
 	int level = 0, ret = 0, retrying = 0;
-	Word arcsize;
-	Word nbytes = 0;
+	uint32_t arcsize;
+	uint32_t nbytes = 0;
 	int nfiles = 0;
 	Status status;
 
@@ -297,7 +297,7 @@ do_unarc()
 	while (1)
 	{
 		static Header dirheader;
-		Byte comptype, first;
+		uint8_t comptype, first;
 
 		header = NULL;
 		if ((arcfs == 0) && ((first = read_byte(ifp)) != STARTBYTE))
@@ -651,7 +651,7 @@ do_unarc()
 				while (check_stream(ifp) == FNOERR)
 					if (read_byte(ifp) == STARTBYTE)
 					{
-						Byte byte = read_byte(ifp);
+						uint8_t byte = read_byte(ifp);
 						switch (byte & 0x7f)
 						{
 						case (CT_NOTCOMP):

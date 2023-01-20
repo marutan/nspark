@@ -87,26 +87,26 @@ check_stream(FILE *fp)
 /*
  * read a byte from the input stream.
  */
-Byte
+uint8_t
 read_byte(FILE *ifp)
 {
-	return ((Byte) getc(ifp));
+	return ((uint8_t) getc(ifp));
 }
 
 /*
  * read a little-endian 2-byte halfword from the input stream.
  */
-Halfword
+uint16_t
 read_halfword(FILE *ifp)
 {
 	union
 	{
-		Halfword h;
-		Byte b[sizeof(Halfword)];
+		uint16_t h;
+		uint8_t b[sizeof(uint16_t)];
 	}
 	ret;
 
-	if (fread((char *) &ret.h, 1, sizeof(Halfword), ifp)!=sizeof(Halfword)) {
+	if (fread((char *) &ret.h, 1, sizeof(uint16_t), ifp)!=sizeof(uint16_t)) {
 		error("Read error!");
 	}
 #if defined(__MSDOS__)
@@ -122,17 +122,17 @@ read_halfword(FILE *ifp)
 /*
  * read a little-endian 4-byte word from the input stream.
  */
-Word
+uint32_t
 read_word(FILE *ifp)
 {
 	union
 	{
-		Word w;
-		Byte b[sizeof(Word)];
+		uint32_t w;
+		uint8_t b[sizeof(uint32_t)];
 	}
 	ret;
 
-	if (fread((char *) &ret.w, 1, sizeof(Word), ifp)!=sizeof(Word)) {
+	if (fread((char *) &ret.w, 1, sizeof(uint32_t), ifp)!=sizeof(uint32_t)) {
 		error("Read error!");
 	}
 #if defined(__MSDOS__)
@@ -149,7 +149,7 @@ read_word(FILE *ifp)
  * write a byte to the output stream.
  */
 void
-write_byte(FILE *ofp, Byte byte)
+write_byte(FILE *ofp, uint8_t byte)
 {
 	if (writesize-- > 0)
 		putc((int) byte, ofp);
@@ -161,7 +161,7 @@ write_byte(FILE *ofp, Byte byte)
  * write a little-endian 2-byte halfword to the output stream.
  */
 void
-write_halfword(FILE *ofp, Halfword halfword)
+write_halfword(FILE *ofp, uint16_t halfword)
 {
 	write_byte(ofp, halfword & 0xff);
 	write_byte(ofp, (halfword >> 8) & 0xff);
@@ -171,7 +171,7 @@ write_halfword(FILE *ofp, Halfword halfword)
  * write a little-endian 4-byte word to the output stream.
  */
 void
-write_word(FILE *ofp, Word word)
+write_word(FILE *ofp, uint32_t word)
 {
 	write_byte(ofp, word & 0xff);
 	write_byte(ofp, (word >> 8) & 0xff);
@@ -190,7 +190,7 @@ read_header(FILE *ifp)
 	static Header header;
 	int i;
 	char *cptr;
-	Byte byte;
+	uint8_t byte;
 
 	memset((char *) &header, '\0', sizeof(header));
 

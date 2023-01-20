@@ -73,11 +73,11 @@ long crcsize;
 struct arcfs_header_s
 {
 	struct arcfs_header_s *next;
-	Byte maxbits;
-	Byte is_dir;
-	Byte info_byte;
-	Word info_word;
-	Word seek;
+	uint8_t maxbits;
+	uint8_t is_dir;
+	uint8_t info_byte;
+	uint32_t info_word;
+	uint32_t seek;
 	Header *header;
 };
 typedef struct arcfs_header_s *arcfs_header;
@@ -113,9 +113,9 @@ static Header null_header;
 /* BB added extra prototype for Borland C/C++ */
 
 struct tm *
-rotm(Word load, Word exec)
+rotm(uint32_t load, uint32_t exec)
 {
-	Word low, high;
+	uint32_t low, high;
 	time_t t;
 
 	high = (load & 0xff) - 0x33l;
@@ -127,7 +127,7 @@ rotm(Word load, Word exec)
 	/* BB changed constant in next line to long */
 	/* cast to Word, then time_t as date stamps will all be 32 bits and time_t
 	 * might be 64 bits */
-	t = (time_t)(Word)(high * 42949673L + low / 100L);
+	t = (time_t)(uint32_t)(high * 42949673L + low / 100L);
 	t -= (high / 25);
 
 	return (localtime(&t));
@@ -166,13 +166,13 @@ arcfs_fixtime(Header *hdr)
 Header *
 arcfs_read_header(FILE *ifp)
 {
-	Word data_start;
-	Word header_length = 0;
+	uint32_t data_start;
+	uint32_t header_length = 0;
 	Header *header;
-	Word version;
-	Word i;
-	Byte info_byte, name[12];
-	Word length, load, exec, attr, complen, info_word;
+	uint32_t version;
+	uint32_t i;
+	uint8_t info_byte, name[12];
+	uint32_t length, load, exec, attr, complen, info_word;
 	arcfs_header header_prev = NULL;
 	int j;
 
@@ -265,7 +265,7 @@ arcfs_read_header(FILE *ifp)
 		/* BB changed next line for Borland C/C++ 4 */
 		/* header_ptr->is_dir = (info_word >> 31); */
 #ifdef __MSDOS__
-		header_ptr->is_dir = (Halfword) (info_word >> 31);
+		header_ptr->is_dir = (uint16_t) (info_word >> 31);
 #else
 		header_ptr->is_dir = (info_word >> 31);
 #endif
@@ -274,7 +274,7 @@ arcfs_read_header(FILE *ifp)
 		/* BB changed next line for Borland C/C++ 4 */
 		/* header_ptr->maxbits = (attr & 0xff00) >> 8; */
 #ifdef __MSDOS__
-		header_ptr->maxbits = (Halfword) (attr & 0xff00) >> 8;
+		header_ptr->maxbits = (uint16_t) (attr & 0xff00) >> 8;
 #else
 		header_ptr->maxbits = (attr & 0xff00) >> 8;
 #endif
@@ -285,7 +285,7 @@ arcfs_read_header(FILE *ifp)
 		header->complen = complen;
 		header->date = 0;
 		header->time = 0;
-		header->crc = (Halfword) (attr >> 16);
+		header->crc = (uint16_t) (attr >> 16);
 		header->origlen = length;
 		header->load = load;
 		header->exec = exec;

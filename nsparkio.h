@@ -27,13 +27,13 @@
 #define __NSPARKIO_H
 
 Ferror check_stream(FILE *fp);
-Byte read_byte(FILE *ifp);
-Halfword read_halfword(FILE *ifp);
-Word read_word(FILE *ifp);
-void write_byte(FILE *ofp, Byte byte);
+uint8_t read_byte(FILE *ifp);
+uint16_t read_halfword(FILE *ifp);
+uint32_t read_word(FILE *ifp);
+void write_byte(FILE *ofp, uint8_t byte);
 #ifdef notyet
-void write_halfword(FILE *ofp, Halfword halfword);
-void write_word(FILE *ofp, Word word);
+void write_halfword(FILE *ofp, uint16_t halfword);
+void write_word(FILE *ofp, uint32_t word);
 #endif /* notyet */
 Header *read_header(FILE *ifp);
 Status read_sqsh_header(FILE *ifp, SqshHeader *sqsh_header);

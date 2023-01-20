@@ -32,8 +32,8 @@ Date *
 makedate(Header *header)
 {
 	static Date date;
-	Halfword arcdate = header->date;
-	Halfword arctime = header->time;
+	uint16_t arcdate = header->date;
+	uint16_t arctime = header->time;
 
 	date.second = (arctime & 0x1f) * 2;
 	date.minute = (arctime >> 5) & 0x3f;

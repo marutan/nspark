@@ -17,7 +17,7 @@
 /*
  * return the length of a file
  */
-Word
+uint32_t
 filesize(char *pathname)
 {
 	int rc;
@@ -28,7 +28,7 @@ filesize(char *pathname)
 		return (0);
 	/* Bit 1 is set if a file, bit 2 if a directory, both if image file */
 	if (rc & 1)
-		return ((Word) osblock.start);
+		return ((uint32_t) osblock.start);
 	else
 		return (0);
 }
@@ -80,7 +80,7 @@ filestamp(Header *header, char *filename)
 	int rc;
 	_kernel_osfile_block osblock;
 
-	if ((header->load & (Word) 0xfff00000) != (Word) 0xfff00000)
+	if ((header->load & (uint32_t) 0xfff00000) != (uint32_t) 0xfff00000)
 		return (0);				/* not a timestamp */
 
 	osblock.load = header->load;

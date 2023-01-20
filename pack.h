@@ -15,7 +15,7 @@
 #define __PACK_H
 
 void putc_init(void);
-void putc_ncr(FILE *ofp, Byte byte);
+void putc_ncr(FILE *ofp, uint8_t byte);
 Status unpack(Header *header, FILE *ifp, FILE *ofp);
 Status pack(Header *header, FILE *ifp, FILE *ofp);
 
