@@ -194,9 +194,9 @@ Status
 uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 {
 	/* BB changed next line. stackp points to huge pointers. */
-	register char_type NSHUGE *stackp;
-	register code_int finchar;
-	register code_int code, oldcode, incode;
+	char_type NSHUGE *stackp;
+	code_int finchar;
+	code_int code, oldcode, incode;
 	char *message;
 
 	init_garble();
@@ -408,14 +408,14 @@ uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 static code_int
 getcode(FILE *ifp)
 {
-	register code_int code;
+	code_int code;
 	static char_type buf[COMPRESSBITS];
-	register int r_off, bits;
+	int r_off, bits;
 	size_t i;
 	/* BB changed next line. We are doing pointer-artithmatics
 	   and that can be dangerous if other than normalized (huge)
 	   pointers are being used. */
-	register char_type NSHUGE *bp = buf;
+	char_type NSHUGE *bp = buf;
 
 	assert(offset >= 0);
 

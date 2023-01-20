@@ -97,7 +97,7 @@ putc_ncr(FILE *ofp, Byte byte)
 Status
 unpack(Header *header, FILE *ifp, FILE *ofp)
 {
-	register Word len = header->complen;
+	Word len = header->complen;
 
     init_garble();
 
@@ -160,7 +160,7 @@ write_ncr(FILE *ofp, Byte byte, int bytecount)
 Status
 pack(Header *header, FILE *ifp, FILE *ofp)
 {
-	register Word len = header->origlen;
+	Word len = header->origlen;
 	Byte prevbyte = '\0', byte;
 	int bytecount = 0;
 

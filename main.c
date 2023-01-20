@@ -99,7 +99,7 @@ static void usage(void);
 int
 main(int argc, char *argv[])
 {
-	register int i;
+	int i;
 	
 		/* BB extra switch indicator for command line parsing
 		   DOS allows switches like /a/b/c which enters as one

@@ -131,10 +131,10 @@ name_dot_arc(char *s)
 
 #ifndef RISCOS
 char *
-riscos_path(register char *s)
+riscos_path(char *s)
 {
 	static char *riscosname = NULL;
-	register char *cptr;
+	char *cptr;
 
 	if (riscosname)
 		free(riscosname);
@@ -161,8 +161,8 @@ static char *pathname = NULL;
 char *
 uplevel()
 {
-	register char *cptr;
-	register int olen, nlen;
+	char *cptr;
+	int olen, nlen;
 
 	if (!pathname)
 		return (NULL);
@@ -195,7 +195,7 @@ uplevel()
 char *
 downlevel(char *filename)
 {
-	register int len, flen;
+	int len, flen;
 
 	if (!pathname)
 		len = 0;
@@ -307,8 +307,8 @@ print_details(Header *header)
 int
 inlist(char *filename)
 {
-	register int len = strlen(filename);
-	register char **filelist = files;
+	int len = strlen(filename);
+	char **filelist = files;
 
 	if (!*filelist)
 		return (1);				/* no "files list" */

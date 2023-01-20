@@ -36,8 +36,8 @@
 Status
 unstore(Header *header, FILE *ifp, FILE *ofp)
 {
-	register Word len = header->complen;
-	register Byte byte;
+	Word len = header->complen;
+	Byte byte;
 
     init_garble();
 

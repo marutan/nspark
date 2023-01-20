@@ -188,8 +188,8 @@ Header *
 read_header(FILE *ifp)
 {
 	static Header header;
-	register int i;
-	register char *cptr;
+	int i;
+	char *cptr;
 	Byte byte;
 
 	memset((char *) &header, '\0', sizeof(header));
