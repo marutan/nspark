@@ -149,7 +149,7 @@ static int32_t maxmaxcode;		/* should NEVER generate this code */
 
 /* static count_int htab[HSIZE]; */
 
-/* static unsigned short codetab[HSIZE]; */
+/* static uint16_t codetab[HSIZE]; */
 #if !defined(__MSDOS__) || defined(MSDOS32)
 #define BB_HUGE_STATIC_ARRAYS
 #else
@@ -159,10 +159,10 @@ static int32_t maxmaxcode;		/* should NEVER generate this code */
 
 #ifdef BB_HUGE_STATIC_ARRAYS
 static int32_t NSHUGE htab[HSIZE];
-static unsigned short NSHUGE codetab[HSIZE];
+static uint16_t NSHUGE codetab[HSIZE];
 #else							/* BB_HUGE_STATIC_ARRAYS */
 static int32_t NSHUGE *htab = NULL;
-static unsigned short NSHUGE *codetab = NULL;
+static uint16_t NSHUGE *codetab = NULL;
 #endif							/* BB_HUGE_STATIC_ARRAYS */
 
 static uint8_t rmask[9] =
@@ -193,8 +193,8 @@ uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 		htab = (int32_t NSHUGE *) farcalloc(HSIZE, sizeof(int32_t));
 	if (!codetab)
 		codetab =
-			(unsigned short NSHUGE *) farcalloc(HSIZE,
-											  sizeof(unsigned short));
+			(uint16_t NSHUGE *) farcalloc(HSIZE,
+											  sizeof(uint16_t));
 	if (!htab || !codetab)
 	{
 		error("%s: uncompress: out of memory", ourname);
@@ -334,7 +334,7 @@ uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 		if ((code = free_ent) < maxmaxcode)
 		{
 			/* BB changed next two lines for Borland C/C++ 4 */
-			tab_prefixof(code) = (unsigned short) oldcode;
+			tab_prefixof(code) = (uint16_t) oldcode;
 			tab_suffixof(code) = (uint8_t) finchar;
 			free_ent = code + 1;
 		}

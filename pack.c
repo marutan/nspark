@@ -35,14 +35,14 @@
 
 #include "pack.h"
 
-static short running;
+static bool running = false;
 static uint32_t complen;
 
 
 void
 putc_init()
 {
-	running = 0;
+	running = false;
 }
 
 /*
@@ -79,11 +79,11 @@ putc_ncr(FILE *ofp, uint8_t byte)
 					write_byte(ofp, prevbyte);
 			}
 		}
-		running = 0;
+		running = false;
 	}
 	else if (byte == RUNMARK)
 	{
-		running++;
+		running = true;
 	}
 	else
 	{
