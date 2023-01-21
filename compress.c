@@ -109,51 +109,38 @@
 
 /* #define tab_prefixof(i)	codetabof(i) */
 
-/* #define tab_suffixof(i)	((char_type *)(htab))[i] */
+/* #define tab_suffixof(i)	((uint8_t *)(htab))[i] */
 
-/* #define de_stack ((char_type *)&tab_suffixof(1<<COMPRESSBITS)) */
+/* #define de_stack ((uint8_t *)&tab_suffixof(1<<COMPRESSBITS)) */
 #if defined(__MSDOS__) && !defined(MSDOS32)
 #define MAXCODE(n_bits)	((long)(1L << (n_bits)) - 1L)
 #define htabof(i) htab[(long)(i)]
 #define codetabof(i) codetab[(long)(i)]
 #define tab_prefixof(i)	codetabof(i)
-#define tab_suffixof(i)	((char_type huge *)(htab))[(long)(i)]
+#define tab_suffixof(i)	((uint8_t huge *)(htab))[(long)(i)]
 #define de_stack \
-          ((char_type huge *)&tab_suffixof(1L<<COMPRESSBITS))
+          ((uint8_t huge *)&tab_suffixof(1L<<COMPRESSBITS))
 #else
 #define MAXCODE(n_bits)	((1 << (n_bits)) - 1)
 #define htabof(i) htab[i]
 #define codetabof(i) codetab[i]
 #define tab_prefixof(i)	codetabof(i)
-#define tab_suffixof(i)	((char_type *)(htab))[i]
-#define de_stack ((char_type *)&tab_suffixof(1<<COMPRESSBITS))
+#define tab_suffixof(i)	((uint8_t *)(htab))[i]
+#define de_stack ((uint8_t *)&tab_suffixof(1<<COMPRESSBITS))
 #endif							/* __MSDOS__ */
 #define FIRST 257				/* first free entry */
 #define	CLEAR 256				/* table clear output code */
 
-/* BB changed next two lines. For 16 bits, the maximum code_int
-   becomes zero again! (1 << 16 == 0).
-   Debugging the un*x version shows that
-   count_int should be a 32bits integer! */
-
-/* typedef int code_int; */
-
-/* typedef int count_int; */
 #if defined(__MSDOS__) && !defined(MSDOS32)
 #define NSHUGE huge
-typedef long code_int;
-typedef long count_int;
 #else
 #define NSHUGE
-typedef int count_int;
-typedef int code_int;
 #endif							/* __MSDOS__ */
-typedef unsigned char char_type;
 
 static int n_bits;				/* number of bits/code */
 static int maxbits;				/* user settable max # bits/code */
-static code_int maxcode;		/* maximum code, given n_bits */
-static code_int maxmaxcode;		/* should NEVER generate this code */
+static int32_t maxcode;		/* maximum code, given n_bits */
+static int32_t maxmaxcode;		/* should NEVER generate this code */
 
 /* BB changed next two lines.
    Under Borland C/C++ static arrays are REALLY static, i.e. they
@@ -171,39 +158,39 @@ static code_int maxmaxcode;		/* should NEVER generate this code */
 #endif
 
 #ifdef BB_HUGE_STATIC_ARRAYS
-static count_int NSHUGE htab[HSIZE];
+static int32_t NSHUGE htab[HSIZE];
 static unsigned short NSHUGE codetab[HSIZE];
 #else							/* BB_HUGE_STATIC_ARRAYS */
-static count_int NSHUGE *htab = NULL;
+static int32_t NSHUGE *htab = NULL;
 static unsigned short NSHUGE *codetab = NULL;
 #endif							/* BB_HUGE_STATIC_ARRAYS */
 
-static char_type rmask[9] =
+static uint8_t rmask[9] =
 	{ 0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff };
-static code_int free_ent;		/* first unused entry */
+static int32_t free_ent;		/* first unused entry */
 static int clear_flg;
 static long readsize;			/* number of bytes left to read */
 
-static code_int offset;		/* from getcode() */
+static int32_t offset;		/* from getcode() */
 static size_t size;
 
-static code_int getcode(FILE * ifp);
+static int32_t getcode(FILE * ifp);
 
 
 Status
 uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 {
 	/* BB changed next line. stackp points to huge pointers. */
-	char_type NSHUGE *stackp;
-	code_int finchar;
-	code_int code, oldcode, incode;
+	uint8_t NSHUGE *stackp;
+	int32_t finchar;
+	int32_t code, oldcode, incode;
 	char *message;
 
 	init_garble();
 
 #if !defined(BB_HUGE_STATIC_ARRAYS)
 	if (!htab)
-		htab = (count_int NSHUGE *) farcalloc(HSIZE, sizeof(count_int));
+		htab = (int32_t NSHUGE *) farcalloc(HSIZE, sizeof(int32_t));
 	if (!codetab)
 		codetab =
 			(unsigned short NSHUGE *) farcalloc(HSIZE,
@@ -253,7 +240,7 @@ uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 	for (code = 255; code >= 0; code--)
 	{
 		tab_prefixof(code) = 0;
-		tab_suffixof(code) = (char_type) code;
+		tab_suffixof(code) = (uint8_t) code;
 	}
 	free_ent = FIRST;
 
@@ -298,7 +285,7 @@ uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 		if (code >= free_ent)
 		{
 			/* BB changed next line for Borland C/C++ 4 */
-			*stackp++ = (char_type) finchar;
+			*stackp++ = (uint8_t) finchar;
 			code = oldcode;
 		}
 		/*
@@ -323,7 +310,7 @@ uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 		/* BB changed next line for Borland C/C++ 4 */
 		/* *stackp++ = finchar = tab_suffixof(code); */
 		finchar = tab_suffixof(code);
-		*stackp++ = (char_type) finchar;
+		*stackp++ = (uint8_t) finchar;
 
 		/*
 		 * And put them out in forward order
@@ -348,7 +335,7 @@ uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 		{
 			/* BB changed next two lines for Borland C/C++ 4 */
 			tab_prefixof(code) = (unsigned short) oldcode;
-			tab_suffixof(code) = (char_type) finchar;
+			tab_suffixof(code) = (uint8_t) finchar;
 			free_ent = code + 1;
 		}
 		/*
@@ -405,17 +392,17 @@ uncompress(Header *header, FILE *ifp, FILE *ofp, CompType type)
 /*
  * Read one code from the input.  If EOF, return -1.
  */
-static code_int
+static int32_t
 getcode(FILE *ifp)
 {
-	code_int code;
-	static char_type buf[COMPRESSBITS];
+	int32_t code;
+	static uint8_t buf[COMPRESSBITS];
 	int r_off, bits;
 	size_t i;
 	/* BB changed next line. We are doing pointer-artithmatics
 	   and that can be dangerous if other than normalized (huge)
 	   pointers are being used. */
-	char_type NSHUGE *bp = buf;
+	uint8_t NSHUGE *bp = buf;
 
 	assert(offset >= 0);
 
